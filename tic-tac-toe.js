@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', event => {
         if (event.target.id.includes('square-')) {
             nextTurn(event);
             showValue();
-            winningConditions(Object.values(localStorage));
+            winningConditions();
             // console.log("I am after setTimeout")
 
         }
@@ -75,40 +75,54 @@ const showValue = () => {
     });
 };
 
-const winningConditions = (arr) => {
+const winningConditions = () => {
 
-    if (localStorage["square-0"] === localStorage["square-1"] && localStorage["square-2"]) {
+    const square0 = localStorage["square-0"]
+    const square1 = localStorage["square-1"]
+    const square2 = localStorage["square-2"]
+    const square3 = localStorage["square-3"]
+    const square4 = localStorage["square-4"]
+    const square5 = localStorage["square-5"]
+    const square6 = localStorage["square-6"]
+    const square7 = localStorage["square-7"]
+    const square8 = localStorage["square-8"]
+
+
+    if ((square0 === square1) && (square0 === square2)) {
         console.log("Winner1")
-        return gameWinner(localStorage["square-0"])
+        return gameWinner(square0)
 
-    } else if (localStorage["square-3"] === localStorage["square-4"] && localStorage["square-5"]) {
+    } else if ((square3 === square4 ) && (square3 === square5)) {
         console.log("Winner2")
-        return gameWinner(localStorage["square-3"])
+        return gameWinner(square3)
 
-    } else if (localStorage["square-6"] === localStorage["square-7"] && localStorage["square-8"]) {
+    } else if ((square6 === square7) && (square6 === square8)) {
+        // console.log(square6, localStorage["square-7", square8])
         console.log("Winner3")
-        return gameWinner(localStorage["square-6"])
+        return gameWinner(square6)
 
-    } else if (localStorage["square-0"] === localStorage["square-3"] && localStorage["square-6"]) {
+    } else if ((square0 === square3) && (square0 === square6)) {
         console.log("Winner4")
-        return gameWinner(localStorage["square-0"])
+        return gameWinner(square0)
 
-    } else if (localStorage["square-1"] === localStorage["square-4"] && localStorage["square-7"]) {
+    } else if ((square1 === square4) && (square1 === square7)) {
         console.log("Winner5")
-        return gameWinner(localStorage["square-1"])
+        return gameWinner(square1)
 
-    } else if (localStorage["square-2"] === localStorage["square-5"] && localStorage["square-8"]) {
+    } else if ((square2 === square5) && (square2 === square8)) {
         console.log("Winner6")
-        return gameWinner(localStorage["square-2"])
+        return gameWinner(square2)
 
-    } else if (localStorage["square-0"] === localStorage["square-4"] && localStorage["square-8"]) {
+    } else if ((square0 === square4) && (square0 === square8)) {
         console.log("Winner7")
-        return gameWinner(localStorage["square-0"])
+        return gameWinner(square0)
 
-    } else if (localStorage["square-2"] === localStorage["square-4"] && localStorage["square-6"]) {
+    } else if ((square2 === square4) && (square2 === square6)) {
         console.log("Winner8")
-        return gameWinner(localStorage["square-2"])
+        return gameWinner(square2)
     }
+
+    // 012, 345, 678, 036, 147, 258,
 
     const values = Object.values(localStorage);
     if (!values.includes('')) {
@@ -131,6 +145,8 @@ const gameWinner = (value) => {
         const tiedGame = document.getElementById("game-status")
         tiedGame.innerHTML = "Tied game!"
 
+    } else {
+        console.log("I was triggered")
     }
 }
 
