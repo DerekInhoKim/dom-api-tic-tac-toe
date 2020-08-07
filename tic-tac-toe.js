@@ -28,8 +28,8 @@ const turnOrder = () => {
 
     if (turn === 'X') {
 
-        const X = localStorage.getItem('X');
-        // `<img src="${X}"/>`
+        const xLink = localStorage.getItem('X');
+        // `<img src="${xLink}"/>`
         turn = 'O';
     } else {
 
