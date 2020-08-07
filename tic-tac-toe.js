@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', event => {
             location.reload()
         })
     })
-    
+
     const nextTurn = turnOrder();
     const gameBoard = document.getElementById("tic-tac-toe-board")
     gameBoard.addEventListener("click", event => {
@@ -74,6 +74,39 @@ const showValue = () => {
     });
 };
 
+const winningConditions = () => {
+    switch("X" ^ "O") {
+        case array[0] === array[1] === array[2]:
+            WIN;
+            break;
+        case array[3] === array[4] === array[5]:
+            WIN;
+            break;
+        case array[6] === array[7] === array[8]:
+            WIN;
+            break;
+        case array[0] === array[3] === array[6]:
+            WIN;
+            break;
+        case array[1] === array[4] === array[7]:
+            WIN;
+            break;
+        case array[2] === array[5] === array[8]:
+            WIN;
+            break;
+        case array[0] === array[4] === array[8]:
+            WIN;
+            break;
+        case array[2] === array[4] === array[6]:
+            WIN;
+            break;
+    }
+
+    // 012, 345, 678,
+    // 036, 147, 258
+    // 048, 246
+
+}
 
 
 
