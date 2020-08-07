@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', event => {
     gameBoard.addEventListener("click", event => {
         if (event.target.id.includes('square-')) {
             nextTurn(event);
+
             showValue();
         }
     })
@@ -27,12 +28,12 @@ window.addEventListener('DOMContentLoaded', event => {
 
 const startGameBoard = () => {
     localStorage.clear();
+    
     for (let i = 0; i < 9; i++) {
         const gridId = `square-${i}`;
         localStorage.setItem(gridId, '');
-        console.log("I am here")
-
     }
+    
     localStorage.setItem('X', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg');
     localStorage.setItem('O', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
 }
@@ -48,7 +49,6 @@ const turnOrder = () => {
         } else {
             localStorage[boxId] = 'O'
             turn = 'X';
-
         };
     }
 };
@@ -69,44 +69,59 @@ const showValue = () => {
         }
         if (value === "O") {
             keyBox.innerHTML = `<img src="${oLink}"/>`;
-
         }
     });
 };
 
-const winningConditions = () => {
-    switch("X" ^ "O") {
-        case array[0] === array[1] === array[2]:
-            WIN;
-            break;
-        case array[3] === array[4] === array[5]:
-            WIN;
-            break;
-        case array[6] === array[7] === array[8]:
-            WIN;
-            break;
-        case array[0] === array[3] === array[6]:
-            WIN;
-            break;
-        case array[1] === array[4] === array[7]:
-            WIN;
-            break;
-        case array[2] === array[5] === array[8]:
-            WIN;
-            break;
-        case array[0] === array[4] === array[8]:
-            WIN;
-            break;
-        case array[2] === array[4] === array[6]:
-            WIN;
-            break;
+const winningConditions = (arr) => {
+    
+    if (arr[0] === arr[1] === arr[2]) {
+        return gameWinner(arr[0])
+    
+    } else if (arr[3] === arr[4] === arr[5]) {
+        return gameWinner(arr[3])
+    
+    } else if (arr[6] === arr[7] === arr[8]) {
+        return gameWinner(arr[6])
+    
+    } else if (arr[0] === arr[3] === arr[6]) {
+        return gameWinner(arr[0])
+    
+    } else if (arr[1] === arr[4] === arr[7]) {
+        return gameWinner(arr[1])
+    
+    } else if (arr[2] === arr[5] === arr[8]) {
+        return gameWinner(arr[2])
+    
+    } else if (arr[0] === arr[4] === arr[8]) {
+        return gameWinner(arr[0])
+    
+    } else if (arr[2] === arr[4] === arr[6]) {
+        return gameWinner(arr[2])
+    }
+    
+    const values = Object.values(localStorage);
+    if (!values.includes('')) {
+        return gameWinner('tied')
     }
 
-    // 012, 345, 678,
-    // 036, 147, 258
-    // 048, 246
-
 }
+
+const gameWinner = (value) => {
+    
+    if (value === 'X') {
+        // X is Winner
+
+    } else if (value === 'O') {
+        // O is Winner
+
+    } else if (value === 'tied') {
+        // Game ends in a Tie
+    
+    } 
+}
+
+// Create gameOn and gameOff functions
 
 
 
