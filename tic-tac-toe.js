@@ -1,13 +1,15 @@
 window.addEventListener('DOMContentLoaded', event => {
     showValue();
 
-    const resetButton = document.querySelectorAll('.reset');
-    resetButton.forEach(button => {
-        button.addEventListener('click', event => {
-            console.log("it worked...")
-            startGameBoard()
-            location.reload()
-        })
+    const newGameButton = document.getElementById("new-game");
+    newGameButton.addEventListener('click', event => {
+        startGameBoard();
+        location.reload();
+    })
+
+    const giveUpButton = document.getElementById("give-up");
+    giveUpButton.addEventListener("click", event => {
+        giveUp();
     })
 
     const nextTurn = turnOrder();
@@ -24,13 +26,11 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
 
-
-
 })
 
 const startGameBoard = () => {
     localStorage.clear();
-
+    gameOn();
     for (let i = 0; i < 9; i++) {
         const gridId = `square-${i}`;
         localStorage.setItem(gridId, '');
@@ -89,40 +89,30 @@ const winningConditions = () => {
 
 
     if ((square0 === square1) && (square0 === square2)) {
-        console.log("Winner1")
         return gameWinner(square0)
 
     } else if ((square3 === square4 ) && (square3 === square5)) {
-        console.log("Winner2")
         return gameWinner(square3)
 
     } else if ((square6 === square7) && (square6 === square8)) {
-        // console.log(square6, localStorage["square-7", square8])
-        console.log("Winner3")
         return gameWinner(square6)
 
     } else if ((square0 === square3) && (square0 === square6)) {
-        console.log("Winner4")
         return gameWinner(square0)
 
     } else if ((square1 === square4) && (square1 === square7)) {
-        console.log("Winner5")
         return gameWinner(square1)
 
     } else if ((square2 === square5) && (square2 === square8)) {
-        console.log("Winner6")
         return gameWinner(square2)
 
     } else if ((square0 === square4) && (square0 === square8)) {
-        console.log("Winner7")
         return gameWinner(square0)
 
     } else if ((square2 === square4) && (square2 === square6)) {
-        console.log("Winner8")
         return gameWinner(square2)
     }
 
-    // 012, 345, 678, 036, 147, 258,
 
     const values = Object.values(localStorage);
     if (!values.includes('')) {
@@ -145,12 +135,42 @@ const gameWinner = (value) => {
         const tiedGame = document.getElementById("game-status")
         tiedGame.innerHTML = "Tied game!"
 
-    } else {
-        console.log("I was triggered")
     }
 }
 
 // Create gameOn and gameOff functions
+
+const gameOn = () => {
+    const newGameButton = document.getElementById("new-game");
+    const giveUpButton = document.getElementById("give-up");
+
+    newGameButton.style.visibility = "hidden"
+    giveUpButton.style.visibility = "visible"
+
+}
+
+const gameOff = () => {
+    const newGameButton = document.getElementById("new-game");
+    const giveUpButton = document.getElementById("give-up");
+
+    newGameButton.style.visibility = "visible"
+    giveUpButton.style.visibility = "hidden"
+
+}
+
+const giveUp = () => {
+    gameOff();
+    const xCount = Object.values(localStorage).filter(ele => ele === 'X').reduce((accum,ele) => accum + ele)
+    const oCount = Object.values(localStorage).filter(ele => ele === 'O').reduce((accum,ele) => accum + ele)
+    const header = document.getElementById("game-status")
+
+    if(xCount === oCount){
+        header.innerHTML = "O Wins!"
+    } else {
+        header.innerHTML = "X Wins!"
+    }
+
+}
 
 
 
