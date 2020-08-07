@@ -15,8 +15,10 @@ window.addEventListener('DOMContentLoaded', event => {
     gameBoard.addEventListener("click", event => {
         if (event.target.id.includes('square-')) {
             nextTurn(event);
-
             showValue();
+            winningConditions(Object.values(localStorage));
+            // console.log("I am after setTimeout")
+
         }
     })
 
@@ -28,12 +30,12 @@ window.addEventListener('DOMContentLoaded', event => {
 
 const startGameBoard = () => {
     localStorage.clear();
-    
+
     for (let i = 0; i < 9; i++) {
         const gridId = `square-${i}`;
         localStorage.setItem(gridId, '');
     }
-    
+
     localStorage.setItem('X', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg');
     localStorage.setItem('O', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
 }
@@ -74,32 +76,40 @@ const showValue = () => {
 };
 
 const winningConditions = (arr) => {
-    
-    if (arr[0] === arr[1] === arr[2]) {
-        return gameWinner(arr[0])
-    
-    } else if (arr[3] === arr[4] === arr[5]) {
-        return gameWinner(arr[3])
-    
-    } else if (arr[6] === arr[7] === arr[8]) {
-        return gameWinner(arr[6])
-    
-    } else if (arr[0] === arr[3] === arr[6]) {
-        return gameWinner(arr[0])
-    
-    } else if (arr[1] === arr[4] === arr[7]) {
-        return gameWinner(arr[1])
-    
-    } else if (arr[2] === arr[5] === arr[8]) {
-        return gameWinner(arr[2])
-    
-    } else if (arr[0] === arr[4] === arr[8]) {
-        return gameWinner(arr[0])
-    
-    } else if (arr[2] === arr[4] === arr[6]) {
-        return gameWinner(arr[2])
+
+    if (localStorage["square-0"] === localStorage["square-1"] && localStorage["square-2"]) {
+        console.log("Winner1")
+        return gameWinner(localStorage["square-0"])
+
+    } else if (localStorage["square-3"] === localStorage["square-4"] && localStorage["square-5"]) {
+        console.log("Winner2")
+        return gameWinner(localStorage["square-3"])
+
+    } else if (localStorage["square-6"] === localStorage["square-7"] && localStorage["square-8"]) {
+        console.log("Winner3")
+        return gameWinner(localStorage["square-6"])
+
+    } else if (localStorage["square-0"] === localStorage["square-3"] && localStorage["square-6"]) {
+        console.log("Winner4")
+        return gameWinner(localStorage["square-0"])
+
+    } else if (localStorage["square-1"] === localStorage["square-4"] && localStorage["square-7"]) {
+        console.log("Winner5")
+        return gameWinner(localStorage["square-1"])
+
+    } else if (localStorage["square-2"] === localStorage["square-5"] && localStorage["square-8"]) {
+        console.log("Winner6")
+        return gameWinner(localStorage["square-2"])
+
+    } else if (localStorage["square-0"] === localStorage["square-4"] && localStorage["square-8"]) {
+        console.log("Winner7")
+        return gameWinner(localStorage["square-0"])
+
+    } else if (localStorage["square-2"] === localStorage["square-4"] && localStorage["square-6"]) {
+        console.log("Winner8")
+        return gameWinner(localStorage["square-2"])
     }
-    
+
     const values = Object.values(localStorage);
     if (!values.includes('')) {
         return gameWinner('tied')
@@ -108,17 +118,20 @@ const winningConditions = (arr) => {
 }
 
 const gameWinner = (value) => {
-    
+
     if (value === 'X') {
-        // X is Winner
+        const xWins = document.getElementById("game-status")
+        xWins.innerHTML = "X Wins!"
 
     } else if (value === 'O') {
-        // O is Winner
+        const oWins = document.getElementById("game-status")
+        oWins.innerHTML = "O Wins!"
 
     } else if (value === 'tied') {
-        // Game ends in a Tie
-    
-    } 
+        const tiedGame = document.getElementById("game-status")
+        tiedGame.innerHTML = "Tied game!"
+
+    }
 }
 
 // Create gameOn and gameOff functions
