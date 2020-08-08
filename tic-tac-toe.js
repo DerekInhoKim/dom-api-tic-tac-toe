@@ -1,9 +1,3 @@
-// Process input/Update state/Update view
-// 1. Handle the board click: handle click, update board model, render Xs and Os
-// 2. Check if the game is over
-// 3. Handle the new game button
-// 4. Handle the give up button
-
 document.addEventListener('DOMContentLoaded', () => {
    
     document
@@ -20,10 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .getElementById('new-game')
         .addEventListener('click', () => {
             updateAndRender(null, true)
+            document.getElementById('game-status').innerHTML = '';
         });
     
     document
-        .getElementById('new-game')
+        .getElementById('give-up')
         .addEventListener('click', () => {
             updateAndRender(null, false, true)
         });
@@ -41,7 +36,6 @@ let gameStatus;
 const updateState = (index, newGame, giveUp) => {
     // New Game Button
     if (newGame) {
-        console.log('NEW GAME!!!')
         currentPlayerSymbol = 'X';
         board = ['', '', '', '', '', '', '', '', ''];
         gameStatus = '';
@@ -49,11 +43,10 @@ const updateState = (index, newGame, giveUp) => {
 
     // Give Up Button
     if (giveUp) {
-        const header = document.getElementById('game-status');
         if (currentPlayerSymbol === 'X') {
-            header.innerHTML = 'Winner is O!'
+            gameStatus = 'O'
         } else {
-            header.innerHTML = 'Winner is X!'
+            gameStatus = 'X'
         }
     }
     
@@ -117,28 +110,34 @@ const updateView = () => {
             squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
             squareId.appendChild(squareImg);
         }
+
+        if (square === '' && squareId.innerHTML !== '') {
+            squareId.innerHTML = '';
+        }
     });
     
     // Display winner in header
     const header = document.getElementById('game-status');
     if (gameStatus !== '' && 'tied') {
         header.innerHTML = `Winner is ${gameStatus}!`;
+        document.getElementById('new-game').disabled = false
     }
 
     // Display tie in header
     if (gameStatus === 'tied') {
         header.innerHTML = `Game is a tie.`;
+        document.getElementById('new-game').disabled = false
     }
 
-    if (board.every(square => square === '')) {
-        document.getElementById('new-game').disable = false;
-        document.getElementById('give-up').disable = true;
-        document.getElementById('game-status').innerHTML = '';
+    if (board.some(square => square !== '' && gameStatus !== '')) {
+        document.getElementById('new-game').disabled = false;
+        document.getElementById('give-up').disabled = true;
+    
     }
 
-    if (board.every(square => square !== '')) {
-        document.getElementById('new-game').disable = false;
-        document.getElementById('give-up').disable = true;
+    if (board.some(square => square !== '' && gameStatus === '')) {
+        document.getElementById('new-game').disabled = true;
+        document.getElementById('give-up').disabled = false;
     }
 }
 
