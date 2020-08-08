@@ -41,6 +41,7 @@ let gameStatus;
 const updateState = (index, newGame, giveUp) => {
     // New Game Button
     if (newGame) {
+        console.log('NEW GAME!!!')
         currentPlayerSymbol = 'X';
         board = ['', '', '', '', '', '', '', '', ''];
         gameStatus = '';
@@ -48,7 +49,7 @@ const updateState = (index, newGame, giveUp) => {
 
     // Give Up Button
     if (giveUp) {
-        const header = getElementById('game-status');
+        const header = document.getElementById('game-status');
         if (currentPlayerSymbol === 'X') {
             header.innerHTML = 'Winner is O!'
         } else {
@@ -129,13 +130,16 @@ const updateView = () => {
         header.innerHTML = `Game is a tie.`;
     }
 
-    if (board.every('')) {
+    if (board.every(square => square === '')) {
         document.getElementById('new-game').disable = false;
         document.getElementById('give-up').disable = true;
+        document.getElementById('game-status').innerHTML = '';
     }
 
-    if (!board.every('')) {
+    if (board.every(square => square !== '')) {
         document.getElementById('new-game').disable = false;
         document.getElementById('give-up').disable = true;
     }
 }
+
+updateAndRender(null, true)
