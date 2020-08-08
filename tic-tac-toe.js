@@ -110,7 +110,7 @@ const updateView = () => {
             squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
             squareId.appendChild(squareImg);
         }
-
+        // Clear header of any previous games
         if (square === '' && squareId.innerHTML !== '') {
             squareId.innerHTML = '';
         }
@@ -129,16 +129,18 @@ const updateView = () => {
         document.getElementById('new-game').disabled = false
     }
 
+    // Show new-game button and hide give-up button on first load or when game is compete
     if (board.some(square => square !== '' && gameStatus !== '')) {
         document.getElementById('new-game').disabled = false;
         document.getElementById('give-up').disabled = true;
     
     }
 
+    // Hide new-game button and show give-up button while game is in play
     if (board.some(square => square !== '' && gameStatus === '')) {
         document.getElementById('new-game').disabled = true;
         document.getElementById('give-up').disabled = false;
     }
 }
-
+// Call updateAndRender so that the game is refreshed on load
 updateAndRender(null, true)
