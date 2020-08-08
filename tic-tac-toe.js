@@ -25,14 +25,49 @@ const updateAndRender = (index) => {
 
 let currentPlayerSymbol = 'X';
 let board = ['', '', '', '', '', '', '', '', ''];
+let gameStatus = '';
+
 const updateState = (index) => {
+    if (gameStatus !== '') return
+
+    // Place playerSymbol in board array and then swich to other player's symbol
     if (board[index] === '') {
         board[index] = currentPlayerSymbol;
 
         currentPlayerSymbol === 'X' ? currentPlayerSymbol = 'O' : currentPlayerSymbol = 'X';
     }
     
-    
+    // Check for vertical winning line
+    for (let i = 0; i < 3; i++) {
+        const topSquare = board[i];
+        const belowSquare = board[i + 3];
+        const twoBelowSquare = board[i + 6];
+        
+        if (topSquare !== '' && topSquare === belowSquare && belowSquare === twoBelowSquare) {
+            gameStatus = topSquare;
+        }
+    }
+
+    // Check for horizontal winning line
+    for (let i = 0; i < 9; i += 3) {
+        const leftSquare = board[i];
+        const middleSquare = board[i + 1];
+        const rightSquare = board[i + 2];
+        
+        if (leftSquare !== '' && leftSquare === middleSquare && middleSquare === rightSquare) {
+            gameStatus = leftSquare;
+        }
+    }
+
+    // Check for top-left to bottom-right winning line
+    if (board[0] !== '' && board[0] === board[4] && board[4] === board[8]) {
+        gameStatus = board[0]
+    }
+
+    // Check for bottom-left to top-right winning line
+    if (board[2] !== '' && board[2] === board[4] && board[4] === board[6]) {
+        gameStatus = board[2]
+    }
 }
 
 const updateView = () => {   
@@ -40,15 +75,24 @@ const updateView = () => {
         const squareId = document.getElementById(`square-${i}`);
         const squareImg = document.createElement('img');
         
+        // If there is an X or O in board array, display the corresponding symbolImg
         if (square === 'X' && squareId.innerHTML === '') {
             squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg');
-            console.log(squareImg);
             squareId.appendChild(squareImg);
-            console.log(squareId);
         } 
+        
         if (square === 'O' && squareId.innerHTML === '') {
             squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
             squareId.appendChild(squareImg);
         }
-    }); 
+    });
+    
+    const header = document.getElementById('game-status');
+    if (gameStatus !== '' && 'tied') {
+        header.innerHTML = `Winner is ${gameStatus}!`
+    }
+
+    if (gameStatus === 'tied') {
+        header.innerHTML = `Game is a tie.`
+    }
 }
