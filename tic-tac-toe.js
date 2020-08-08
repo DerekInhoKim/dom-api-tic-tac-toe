@@ -14,21 +14,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const index = Number.parseInt(targetId[targetId.length - 1]);
             updateAndRender(index);
-        })
-
+        });
+    
+    document
+        .getElementById('new-game')
+        .addEventListener('click', () => {
+            updateAndRender(null, true)
+        });
+    
+    document
+        .getElementById('new-game')
+        .addEventListener('click', () => {
+            updateAndRender(null, false, true)
+        });
 });
 
-const updateAndRender = (index) => {
-    updateState(index);
+const updateAndRender = (index, newGame, giveUp) => {
+    updateState(index, newGame, giveUp);
     updateView();
 }
 
-let currentPlayerSymbol = 'X';
-let board = ['', '', '', '', '', '', '', '', ''];
-let gameStatus = '';
+let currentPlayerSymbol;
+let board;
+let gameStatus;
 
-const updateState = (index) => {
-    if (gameStatus !== '') return
+const updateState = (index, newGame, giveUp) => {
+    // New Game Button
+    if (newGame) {
+        currentPlayerSymbol = 'X';
+        board = ['', '', '', '', '', '', '', '', ''];
+        gameStatus = '';
+    }
+
+    // Give Up Button
+    if (giveUp) {
+        const header = getElementById('game-status');
+        if (currentPlayerSymbol === 'X') {
+            header.innerHTML = 'Winner is O!'
+        } else {
+            header.innerHTML = 'Winner is X!'
+        }
+    }
+    
+    /*********************Game Logic*********************/
+    
+    // Stop game once an outcome is determined
+    if (gameStatus !== '') return;
 
     // Place playerSymbol in board array and then swich to other player's symbol
     if (board[index] === '') {
@@ -61,12 +92,12 @@ const updateState = (index) => {
 
     // Check for top-left to bottom-right winning line
     if (board[0] !== '' && board[0] === board[4] && board[4] === board[8]) {
-        gameStatus = board[0]
+        gameStatus = board[0];
     }
 
     // Check for bottom-left to top-right winning line
     if (board[2] !== '' && board[2] === board[4] && board[4] === board[6]) {
-        gameStatus = board[2]
+        gameStatus = board[2];
     }
 }
 
@@ -87,12 +118,24 @@ const updateView = () => {
         }
     });
     
+    // Display winner in header
     const header = document.getElementById('game-status');
     if (gameStatus !== '' && 'tied') {
-        header.innerHTML = `Winner is ${gameStatus}!`
+        header.innerHTML = `Winner is ${gameStatus}!`;
     }
 
+    // Display tie in header
     if (gameStatus === 'tied') {
-        header.innerHTML = `Game is a tie.`
+        header.innerHTML = `Game is a tie.`;
+    }
+
+    if (board.every('')) {
+        document.getElementById('new-game').disable = false;
+        document.getElementById('give-up').disable = true;
+    }
+
+    if (!board.every('')) {
+        document.getElementById('new-game').disable = false;
+        document.getElementById('give-up').disable = true;
     }
 }
