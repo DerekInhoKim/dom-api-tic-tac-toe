@@ -23,10 +23,32 @@ const updateAndRender = (index) => {
     updateView();
 }
 
+let currentPlayerSymbol = 'X';
+let board = ['', '', '', '', '', '', '', '', ''];
 const updateState = (index) => {
+    if (board[index] === '') {
+        board[index] = currentPlayerSymbol;
 
+        currentPlayerSymbol === 'X' ? currentPlayerSymbol = 'O' : currentPlayerSymbol = 'X';
+    }
+    
+    
 }
 
-const updateView = () => {
-    
+const updateView = () => {   
+    board.forEach((square, i) => {
+        const squareId = document.getElementById(`square-${i}`);
+        const squareImg = document.createElement('img');
+        
+        if (square === 'X' && squareId.innerHTML === '') {
+            squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg');
+            console.log(squareImg);
+            squareId.appendChild(squareImg);
+            console.log(squareId);
+        } 
+        if (square === 'O' && squareId.innerHTML === '') {
+            squareImg.setAttribute('src', 'https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg');
+            squareId.appendChild(squareImg);
+        }
+    }); 
 }
